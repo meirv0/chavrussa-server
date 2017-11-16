@@ -9,22 +9,22 @@ export module modules {
 
     export const Questions = mongoose.model('Questions', {
 
-        location: String,
+        url: String,
         userName: String,
-        localDateTime: Date,
-        header: String,
+        date: Date,
+        question: String,
         text: String,
-        type: String
+        type: String,
+        answers: {}
     });
 
     export const Answers = mongoose.model('Answers', {
-        
-        location: String,
+
         userName: String,
-        localDateTime: Date,
-        header: String,
         text: String,
-        type: String
+        date: Date,
+        questionId: String
+        
     });
 
 }

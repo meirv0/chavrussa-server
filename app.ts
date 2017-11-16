@@ -33,7 +33,7 @@ httpServer.listen(port);
 
 app.post("/question", (req, res, next) => {
 
-    let question = new modules.Questions(res.body.question);
+    let question = new modules.Questions(req.body.question);
     question.save()
         .then(doc => {
             res.json({ id: question._id })
@@ -56,9 +56,9 @@ app.get("/questions", (req, res, next) => {
 
 app.post("/answer", (req, res, next) => {
 
-    let questionId = req.query.questionId;
+    let answer = new modules.Answers(res.body.answer);
 
-    modules.Answers.save({}).lean()
+    answer.save()
         .then(doc => {
             res.json(doc);
         })
