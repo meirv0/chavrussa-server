@@ -4,21 +4,27 @@ mongoose.connect('mongodb://meir:meir6741@ds111336.mlab.com:11336/chavrussa?3t.c
 
 const Schema = mongoose.Schema;
 
-var User = {
-    name: String
-};
 
-var UserModel = mongoose.model('User', User);
+export module modules {
 
-// let user = new UserModel({
-//     name: 'test'
-// })
+    export const Questions = mongoose.model('Questions', {
 
+        location: String,
+        userName: String,
+        localDateTime: Date,
+        header: String,
+        text: String,
+        type: String
+    });
 
-UserModel.findOne({ name: 'test' }).lean()
-    .then(res => {
-        console.log(res);
-    })
-    .catch(err => {
-        console.error(err);
-    })
+    export const Answers = mongoose.model('Answers', {
+        
+        location: String,
+        userName: String,
+        localDateTime: Date,
+        header: String,
+        text: String,
+        type: String
+    });
+
+}

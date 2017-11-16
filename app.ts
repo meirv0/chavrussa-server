@@ -1,5 +1,6 @@
 import * as express from "express";
 import { json, urlencoded, bodyParser } from "body-parser";
+import { modules } from './dbSchemas/modules';
 
 var http = require('http');
 
@@ -26,28 +27,57 @@ httpServer.listen(port);
 
 //const io = socketIo(httpServer);
 
-app.use((req, res, next)  => {
-    res.header("Access-Control-Allow-Methods", " GET, POST, PATCH, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    res.header("Access-Control-Allow-Origin", "*");
-
-    if ('OPTIONS' == req.method) {
-        res.sendStatus(200)
-    }
-    else {
-        next();
-    }
-});
-
 /** logging */
 
 // ****** API Routes ***** //
 
+app.post("/question", (req, res, next) => {
 
-app.get("/", (req, res) => {
-    res.send('chavrussa API HealthCheck');
+    let question = new modules.Questions(res.body.question);
+    question.save()
+        .then(doc => {
+            res.json({ id: question._id })
+        })
+        .catch(err => {
+            next(err)
+        })
 });
 
+app.get("/questions", (req, res, next) => {
+
+    modules.Questions.find({}).lean()
+        .then(doc => {
+            res.json(doc);
+        })
+        .catch(err => {
+            next(err)
+        })
+});
+
+app.post("/answer", (req, res, next) => {
+
+    let questionId = req.query.questionId;
+
+    modules.Answers.save({}).lean()
+        .then(doc => {
+            res.json(doc);
+        })
+        .catch(err => {
+            next(err)
+        })
+});
+
+app.get("/answers", (req, res, next) => {
+
+    let answer = new modules.Answers(res.body.answer);
+    modules.Questions.find({}).lean()
+        .then(doc => {
+            res.json(doc);
+        })
+        .catch(err => {
+            next(err)
+        })
+});
 
 // ***** Error Handling *** /
 // catch 404 and forward to error handler
