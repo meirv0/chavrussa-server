@@ -61,6 +61,13 @@ app.post("/answer", (req, res, next) => {
 
     answer.save()
         .then(doc => {
+            modules.Questions.update({ _id: req.body.answer.questionId }, { $push: { answers: doc._id } })
+                .then(push => {
+                    console.log(push);
+                })
+                .catch(err => {
+                    next(err)
+                });
             res.json(doc);
         })
         .catch(err => {
@@ -71,7 +78,7 @@ app.post("/answer", (req, res, next) => {
 app.get("/answer", (req, res, next) => {
 
     let questionId = req.query.questionId;
-    
+    console.log(questionId);
     modules.Answers.find({ questionId: questionId }).lean()
         .then(doc => {
             res.json({ answers: doc });

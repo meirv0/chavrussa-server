@@ -15,7 +15,8 @@ export module modules {
         question: String,
         text: String,
         type: String,
-        answers: {}
+        answers: { type: [Schema.Types.ObjectId] , ref: 'Answers'}
+        
     });
 
     export const Answers = mongoose.model('Answers', {
