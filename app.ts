@@ -43,6 +43,7 @@ app.post("/question", (req, res, next) => {
         })
 });
 
+
 app.get("/questions", (req, res, next) => {
 
     modules.Questions.find({}).lean()
@@ -56,7 +57,7 @@ app.get("/questions", (req, res, next) => {
 
 app.post("/answer", (req, res, next) => {
 
-    let answer = new modules.Answers(res.body.answer);
+    let answer = new modules.Answers(req.body.answer);
 
     answer.save()
         .then(doc => {
@@ -67,12 +68,13 @@ app.post("/answer", (req, res, next) => {
         })
 });
 
-app.get("/answers", (req, res, next) => {
+app.get("/answer", (req, res, next) => {
 
-    let answer = new modules.Answers(res.body.answer);
-    modules.Questions.find({}).lean()
+    let questionId = req.query.questionId;
+    
+    modules.Answers.find({ questionId: questionId }).lean()
         .then(doc => {
-            res.json(doc);
+            res.json({ answers: doc });
         })
         .catch(err => {
             next(err)
