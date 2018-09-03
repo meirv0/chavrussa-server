@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/meirv0/chavrussa-server#readme",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "express-rate-limit": "^2.9.0",
     "mongoose": "^4.13.3"
   },
   "devDependencies": {

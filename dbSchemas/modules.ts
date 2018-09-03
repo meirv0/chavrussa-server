@@ -14,9 +14,10 @@ export module modules {
         date: Date,
         question: String,
         text: String,
+        location: String,
         type: String,
-        answers: { type: [Schema.Types.ObjectId] , ref: 'Answers'}
-        
+        answers: [{ type: Schema.Types.ObjectId, ref: 'Answers' }]
+
     });
 
     export const Answers = mongoose.model('Answers', {
@@ -25,7 +26,7 @@ export module modules {
         text: String,
         date: Date,
         questionId: String
-        
+
     });
 
 }
