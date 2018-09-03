@@ -82,7 +82,7 @@ app.post("/answer", (req, res, next) => {
 
     answer.save()
         .then(doc => {
-            modules.Questions.update({ _id: req.body.answer.questionId }, { $push: { answers: doc._id } })
+            modules.Questions.update({ _id: req.body.answer.questionId }, { $addToSet: { answers: doc._id } })
                 .then(push => {
                     console.log(push);
                 })
